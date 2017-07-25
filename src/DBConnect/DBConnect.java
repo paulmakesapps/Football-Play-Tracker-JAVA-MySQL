@@ -169,33 +169,14 @@ public class DBConnect {
                     "jdbc:mysql://localhost:3306/javabase", "root", "nopass");
             Statement stmt = con.createStatement();
 
-            int rs = stmt.executeUpdate("INSERT INTO seasonlist VALUES(" + season + ");"
-                    + "create table gamelist" + season + "\n"
-                    + "(\n"
-                    + "season INTEGER,\n"
-                    + "gamenumber INTEGER,\n"
-                    + "homescore INTEGER,\n"
-                    + "awayscore INTEGER,\n"
-                    + "home VARCHAR(40),\n"
-                    + "away VARCHAR(40)\n"
-                    + "); "+"CREATE TABLE playlist"+season+"\n" +
-" (down INTEGER\n" +
-" ,tofirst Integer,\n" +
-" fieldside VARCHAR(10),\n" +
-" team VARCHAR(30),\n" +
-" yardlinestart INTEGER,\n" +
-" quarter INTEGER,\n" +
-" totalyards INTEGER,\n" +
-" yardlineend INTEGER,\n" +
-" playtype VARCHAR(4),\n" +
-" direction VARCHAR(7),\n" +
-" playclock DOUBLE,\n" +
-" gamenumber INTEGER,\n" +
-" homescore INTEGER,\n" +
-" awayscore INTEGER,\n" +
-" scoringplay INTEGER\n" +
-" );");
-
+            int rs = stmt.executeUpdate("INSERT INTO seasonlist VALUES(" + season + ");");
+rs = stmt.executeUpdate("CREATE TABLE playlist"+season+"(down INTEGER ,tofirst Integer,fieldside VARCHAR(10),team VARCHAR(30),yardlinestart INTEGER,quarter INTEGER,totalyards INTEGER,yardlineend INTEGER,playtype VARCHAR(4),direction VARCHAR(7),playclock DOUBLE,gamenumber INTEGER,homescore INTEGER,awayscore INTEGER,scoringplay INTEGER);");
+rs=stmt.executeUpdate("create table gamelist"+season+"(season INTEGER,gamenumber INTEGER,homescore INTEGER,awayscore INTEGER,home VARCHAR(40),away VARCHAR(40));");            
+            
+            
+            
+            
+            
             con.close();
         } catch (Exception e) {
             System.out.println(e);
