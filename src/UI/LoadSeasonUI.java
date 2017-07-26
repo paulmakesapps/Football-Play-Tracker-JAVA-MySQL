@@ -78,10 +78,12 @@ public final DBConnect db = new DBConnect();
 				
 						SeasonUI sui= new SeasonUI();
 				
-						if(year!=null)
+						if(year!=null){
 						sui.create(primaryStage, year);
-				
-				
+                                                listView.setItems(null);
+                                                data.clear();
+                                                }
+								
 			}
 		});
 

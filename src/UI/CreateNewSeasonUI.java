@@ -19,106 +19,115 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CreateNewSeasonUI extends Main {
-	Button[] schedule;
-	public static final ObservableList names = FXCollections
-			.observableArrayList();
-	public static final ObservableList data = FXCollections
-			.observableArrayList();
 
-	public final DBConnect db = new DBConnect();
-	boolean istableloaded = false;
-	public TextField name_field;
+    Button[] schedule;
+    public static final ObservableList names = FXCollections
+            .observableArrayList();
+    public static final ObservableList data = FXCollections
+            .observableArrayList();
 
-	public CreateNewSeasonUI() {
+    public final DBConnect db = new DBConnect();
+    boolean istableloaded = false;
+    public TextField name_field;
+    final ListView listViewLoad = new ListView(data);
 
-	}
+    public CreateNewSeasonUI() {
 
-	public void createNewSeason(final Stage primaryStage) {
+    }
 
-		Label lbl = new Label("New Year:");
-		lbl.setLayoutX(10);
-		lbl.setLayoutY(53);
+    public void createNewSeason(final Stage primaryStage) {
 
-		Label otherseasonlbl = new Label("Other \nSeasons:");
-		otherseasonlbl.setLayoutX(10);
-		otherseasonlbl.setLayoutY(80);
+        Label lbl = new Label("New Year:");
+        lbl.setLayoutX(10);
+        lbl.setLayoutY(53);
 
-		name_field = new TextField();
-		name_field.setLayoutX(70);
-		name_field.setLayoutY(50);
-		
-		Button addbtn = new Button();
-		addbtn.setText("Add");
-		addbtn.setLayoutX(225);
-		addbtn.setLayoutY(50);
+        Label otherseasonlbl = new Label("Other \nSeasons:");
+        otherseasonlbl.setLayoutX(10);
+        otherseasonlbl.setLayoutY(80);
 
-		addbtn.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
+        name_field = new TextField();
+        name_field.setLayoutX(70);
+        name_field.setLayoutY(50);
 
-					//add text to list in sql
+        Button addbtn = new Button();
+        addbtn.setText("Add");
+        addbtn.setLayoutX(225);
+        addbtn.setLayoutY(50);
+
+        addbtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
+                //add text to list in sql
 //				System.out.println(">> ADD "+name_field.getText());
 //				name_field.setText("");
 //                                String hold=name_field.getText().toString();
-                                db.addNewSeason(name_field.getText());
-                                name_field.setText("");
+                db.addNewSeason(name_field.getText());
+                name_field.setText("");
 
-			}
-		});
+                listViewLoad.setItems(null);
+                data.clear();
+                String[] seasonArr = db.getSeasonList();
 
+                for (int i = 0; i < seasonArr.length; i++) {
+                    if (seasonArr[i] != null) {
+                        data.add(seasonArr[i]);
+                    }
+                }
+                listViewLoad.setItems(data);
 
-		final ListView listViewLoad = new ListView(data);
-		listViewLoad.setPrefSize(200, 250);
-		listViewLoad.setEditable(true);
+            }
+        });
 
-		// get data from the sql fakeseason list here
-		String[] seasonArr = db.getSeasonList();
+        listViewLoad.setPrefSize(200, 250);
+        listViewLoad.setEditable(true);
 
-			for (int i = 0; i < seasonArr.length; i++) {
-				if (seasonArr[i] != null)
-					data.add(seasonArr[i]);
-			}
+        // get data from the sql fakeseason list here
+        String[] seasonArr = db.getSeasonList();
 
-			
-		listViewLoad.setLayoutX(70);
-		listViewLoad.setLayoutY(80);
-		listViewLoad.setMaxHeight(150);
-		listViewLoad.setMaxWidth(150);
-		listViewLoad.setItems(data);
-		// listView.setCellFactory(ComboBoxListCell.forListView(names));
+        for (int i = 0; i < seasonArr.length; i++) {
+            if (seasonArr[i] != null) {
+                data.add(seasonArr[i]);
+            }
+        }
 
-		Button okBtn = new Button("OK");
-		Button closeBtn = new Button("Close");
+        listViewLoad.setLayoutX(70);
+        listViewLoad.setLayoutY(80);
+        listViewLoad.setMaxHeight(150);
+        listViewLoad.setMaxWidth(150);
+        listViewLoad.setItems(data);
+        // listView.setCellFactory(ComboBoxListCell.forListView(names));
 
-		Button backbtn = new Button();
-		backbtn.setText("Back");
-		backbtn.setLayoutX(10);
-		backbtn.setLayoutY(10);
-		
-		
-		
-		
+        Button okBtn = new Button("OK");
+        Button closeBtn = new Button("Close");
 
-		backbtn.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
+        Button backbtn = new Button();
+        backbtn.setText("Back");
+        backbtn.setLayoutX(10);
+        backbtn.setLayoutY(10);
 
-				start(primaryStage);
-			}
-		});
+        backbtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
 
-		Pane root = new Pane();
-		root.getChildren().add(backbtn);
-		root.getChildren().add(lbl);
-		root.getChildren().add(name_field);
-		root.getChildren().add(listViewLoad);
-		root.getChildren().add(otherseasonlbl);
-		root.getChildren().add(addbtn);
+                start(primaryStage);
+                listViewLoad.setItems(null);
+                data.clear();
 
+            }
+        });
 
-		scene = new Scene(root, 300, 250);
+        Pane root = new Pane();
+        root.getChildren().add(backbtn);
+        root.getChildren().add(lbl);
+        root.getChildren().add(name_field);
+        root.getChildren().add(listViewLoad);
+        root.getChildren().add(otherseasonlbl);
+        root.getChildren().add(addbtn);
 
-		primaryStage.setTitle("PlayPredictor");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
+        scene = new Scene(root, 300, 250);
+
+        primaryStage.setTitle("PlayPredictor");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
 }
