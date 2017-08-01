@@ -1,10 +1,12 @@
 package Main;
 
+import TestCode.Test;
 import java.awt.EventQueue;
 
 import UI.CreateNewSeasonUI;
 import UI.LoadSeasonUI;
 import UI.PlayUI;
+import java.util.Random;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -94,6 +96,14 @@ public class Main extends Application {
 	
 
 	public static void main(String[] args) {
-		launch(args);
+		//launch(args);
+                
+                //intFrequency();
+                Test t= new Test();
+                t.getPlays();
+                
+                
 	}
+        
+
 }

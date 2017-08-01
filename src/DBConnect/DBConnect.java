@@ -32,23 +32,31 @@ public class DBConnect {
 
     }
 
-    public void test() {
+    public Play[] test() {
+        Play[] playarr= new Play[300];
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/javabase", "root", "nopass");
             // here sonoo is database name, root is username and password
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from example1;");
-            while (rs.next()) {
-                System.out.println(rs.getString(1) + "  " + rs.getString(2)
-                        + "  " + rs.getString(3));
+            ResultSet rs = stmt.executeQuery(
+                    "select * from playlist2017 where gamenumber =1 ;");
+            
+                        System.out.printf("%s %10s %10s %7s  %10s %8s %10s %10s %10s %10s %10s \n", "Down", "ToFirst", "FieldSide", "Team", "Yard Line Start", "Quarter", "Total Yards", "Yard Line End", "Play Type", "Direction", "GameClock");
+            System.out.printf("%s %10s %10s %7s  %10s %8s %10s %10s %10s %10s %10s \n", "----", "-------", "---------", "----", "---------------", "-------", "-----------", "-------------", "---------", "---------", "---------");
+
+              while (rs.next()) {
+                System.out.printf("%3s %10s %10s %10s %10s %10s %10s %10s %15s %10s %10s %15s %10s %10s \n", rs.getString(1), rs.getString(2),
+                         rs.getString(3), rs.getString(4), rs.getString(5),
+                         rs.getString(6), rs.getString(7), rs.getString(8),
+                         rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14));
             }
             con.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-
+return playarr;
     }
 
     public void addPlay(Play p, Game game) {
